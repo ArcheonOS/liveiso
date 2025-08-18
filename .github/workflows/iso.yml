@@ -1,0 +1,217 @@
+name: Archeon Release
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build Type'
+        required: false
+        default: 'beta'
+        type: choice
+        options:
+          - 'beta'
+          - 'release'
+      custom_tag:
+        description: 'Custom tag suffix (optional)'
+        required: false
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120  # 2 hour timeout for ISO builds
+
+    permissions:
+      contents: write
+      
+    outputs:
+      iso_name: ${{ steps.build_iso.outputs.iso_name }}
+      release_title: ${{ steps.release_info.outputs.title }}
+      release_tag: ${{ steps.release_info.outputs.tag }}
+      build_type: ${{ steps.release_info.outputs.build_type }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # Full history for better versioning
+
+      - name: Validate build environment
+        run: |
+          echo "=== Build Environment ==="
+          echo "Runner: ${{ runner.os }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "Workspace: ${{ github.workspace }}"
+          echo "========================="
+
+          # Validate required files
+          if [[ ! -f "./build.sh" ]]; then
+            echo "Error: build.sh not found"
+            exit 1
+          fi
+
+          if [[ ! -x "./build.sh" ]]; then
+            echo "Making build.sh executable..."
+            chmod +x ./build.sh
+          fi
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Pull Arch Linux container
+        run: |
+          echo "Pulling latest Arch Linux container..."
+          docker pull archlinux:latest
+
+      - name: Build Archeon ISO
+        id: build_iso
+        run: |
+          echo "=== Starting ISO Build ==="
+
+          # Build ISO with enhanced error handling
+          docker run --rm --privileged \
+            -v ${{ github.workspace }}:/work \
+            -w /work \
+            archlinux:latest bash -c "
+              set -euo pipefail
+              echo '=== Updating system packages ==='
+              pacman -Syu --needed --noconfirm
+
+              echo '=== Installing build dependencies ==='
+              pacman -S --needed --noconfirm git archiso squashfs-tools
+
+              echo '=== Running build script ==='
+              ./build.sh
+
+              echo '=== Build completed ==='
+              ls -la dist/desktop
+            "
+
+          # Find the generated ISO
+          ISO_FILE=$(find dist/desktop -name "*.iso" | head -n1)
+          if [[ -z "$ISO_FILE" ]]; then
+            echo "Error: No ISO file found in dist/desktop"
+            exit 1
+          fi
+
+          ISO_NAME=$(basename "$ISO_FILE")
+          ISO_SIZE=$(du -h "$ISO_FILE" | cut -f1)
+
+          echo "iso_name=$ISO_NAME" >> "$GITHUB_OUTPUT"
+          echo "iso_size=$ISO_SIZE" >> "$GITHUB_OUTPUT"
+          echo "iso_path=$ISO_FILE" >> "$GITHUB_OUTPUT"
+
+          echo "=== ISO Build Summary ==="
+          echo "ISO Name: $ISO_NAME"
+          echo "ISO Size: $ISO_SIZE"
+          echo "ISO Path: $ISO_FILE"
+          echo "========================"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: archeon-build
+          path: dist/desktop/*
+
+      - name: Set release information
+        id: release_info
+        run: |
+          MONTH=$(date +'%B')
+          YEAR=$(date +'%Y')
+          MONTH_LOWER=$(echo "$MONTH" | tr '[:upper:]' '[:lower:]')
+          BUILD_DATE=$(date +'%Y%m%d')
+
+          # Determine build type
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            BUILD_TYPE="${{ github.event.inputs.build_type || 'beta' }}"
+            CUSTOM_SUFFIX="${{ github.event.inputs.custom_tag }}"
+          else
+            BUILD_TYPE="release"
+            CUSTOM_SUFFIX=""
+          fi
+
+          # Set title and tag based on build type
+          if [[ "$BUILD_TYPE" == "beta" ]]; then
+            TITLE="$MONTH $YEAR (Beta)"
+            TAG="${MONTH_LOWER}.${YEAR}.beta.${BUILD_DATE}"
+            PRERELEASE="true"
+          else
+            TITLE="$MONTH $YEAR"
+            TAG="${MONTH_LOWER}.${YEAR}"
+            PRERELEASE="false"
+          fi
+
+          # Add custom suffix if provided
+          if [[ -n "$CUSTOM_SUFFIX" ]]; then
+            TAG="${TAG}.${CUSTOM_SUFFIX}"
+            TITLE="${TITLE} (${CUSTOM_SUFFIX})"
+          fi
+
+          # Output variables
+          echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$PRERELEASE" >> "$GITHUB_OUTPUT"
+          echo "build_type=$BUILD_TYPE" >> "$GITHUB_OUTPUT"
+
+          echo "=== Release Information ==="
+          echo "Title: $TITLE"
+          echo "Tag: $TAG"
+          echo "Prerelease: $PRERELEASE"
+          echo "Build Type: $BUILD_TYPE"
+          echo "=========================="
+
+      - name: Create release notes
+        run: |
+          cat > release_notes.md << EOF
+          ### Build Information
+          - **Build Date**: $(date +'%Y-%m-%d %H:%M:%S UTC')
+          - **Build Type**: ${{ steps.release_info.outputs.build_type }}
+          - **ISO Size**: ${{ steps.build_iso.outputs.iso_size }}
+          - **Commit**: ${{ github.sha }}
+
+          ---
+
+          *This is an automated build*
+          EOF
+
+      - name: Upload release notes artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog
+          path: release_notes.md
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: success()
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v5
+        with:
+          name: archeon-build
+          path: dist/desktop
+
+      - name: Download changelog artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: changelog
+          path: changelog
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ needs.build.outputs.release_title }}
+          tag_name: ${{ needs.build.outputs.release_tag }}
+          body_path: changelog/release_notes.md
+          make_latest: ${{ needs.build.outputs.build_type == 'release' }}
+          prerelease: ${{ needs.build.outputs.build_type == 'beta' }}
+          files: dist/desktop/*
+          fail_on_unmatched_files: true
+          generate_release_notes: true

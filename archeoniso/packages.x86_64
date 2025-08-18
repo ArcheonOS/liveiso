@@ -1,0 +1,110 @@
+## Core
+arch-install-scripts
+archlinux-keyring
+base
+cachyos-keyring
+linux-cachyos
+linux-firmware-amdgpu
+linux-firmware-broadcom
+linux-firmware-intel
+linux-firmware-realtek
+memtest86+
+memtest86+-efi
+mkinitcpio
+mkinitcpio-archiso
+pv
+syslinux
+
+## Microcode
+amd-ucode
+intel-ucode
+
+## Filesystem Tools
+btrfs-progs
+dosfstools
+e2fsprogs
+exfatprogs
+f2fs-tools
+ntfs-3g
+xfsprogs
+
+## Boot & Firmware Tools
+edk2-shell
+
+## Networking
+inetutils
+iproute2
+networkmanager
+openssh
+
+## Desktop Environment
+bluedevil
+dolphin
+kate
+kcalc
+kde-gtk-config
+konsole
+plasma-desktop
+plasma-nm
+plasma-pa
+polkit
+polkit-kde-agent
+kscreen
+spectacle
+xdg-desktop-portal
+xdg-desktop-portal-kde
+
+## Display Manager
+sddm
+
+## Audio & Multimedia
+pipewire
+pipewire-alsa
+pipewire-jack
+pipewire-pulse
+wireplumber
+
+## Graphics Drivers & X/Wayland
+mesa
+xlibre-xf86-input-libinput
+xlibre-xf86-video-amdgpu
+xlibre-xserver
+xlibre-xserver-common
+xorg-xinit
+xorg-xinput
+xorg-xrandr
+xorg-xsetroot
+xorg-xwayland
+
+## Fonts
+noto-color-emoji-fontconfig
+noto-fonts
+otf-font-awesome
+terminus-font
+ttf-dejavu
+ttf-fira-code
+ttf-fira-mono
+ttf-fira-sans
+ttf-liberation
+woff2-font-awesome
+
+## Utilities & Tools
+bluez
+bluez-libs
+bluez-utils
+cachyos-cli-installer-new
+cachyos-mirrorlist
+cachyos-rate-mirrors
+fastfetch
+ungoogled-chromium-bin
+fish
+inxi
+man-db
+man-pages
+pciutils
+starship
+sudo
+usbutils
+vim
+xdg-user-dirs
+xdg-utils
