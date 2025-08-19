@@ -304,8 +304,8 @@
         "content_settings": [],
         "creation_flags": 1,
         "disable_reasons": [],
-        "first_install_time": "13399991537373420",
-        "from_webstore": true,
+        "first_install_time": "13399763589981933",
+        "from_webstore": false,
         "granted_permissions": {
           "api": [
             "storage",
@@ -317,7 +317,7 @@
         },
         "incognito_content_settings": [],
         "incognito_preferences": {},
-        "last_update_time": "13399991537373420",
+        "last_update_time": "13399996837891413",
         "location": 1,
         "manifest": {
           "action": {
@@ -351,18 +351,19 @@
           ],
           "short_name": "Bonjourr",
           "update_url": "https://clients2.google.com/service/update2/crx",
-          "version": "20.4.2"
+          "version": "21.1.0"
         },
-        "path": "dlnejlppicbjfcfcedcflplfjajinajd/20.4.2_0",
+        "path": "dlnejlppicbjfcfcedcflplfjajinajd/21.1.0_0",
         "preferences": {},
         "regular_only_preferences": {},
         "service_worker_registration_info": {
-          "version": "20.4.2"
+          "version": "21.1.0"
         },
         "serviceworkerevents": [
           "action.onClicked",
           "runtime.onInstalled"
         ],
+        "uninstall_url": "https://bonjourr.fr/goodbye",
         "was_installed_by_default": true,
         "was_installed_by_oem": true,
         "withholding_permissions": false
