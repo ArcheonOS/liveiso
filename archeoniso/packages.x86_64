@@ -3,17 +3,22 @@ arch-install-scripts
 archlinux-keyring
 base
 cachyos-keyring
-linux-cachyos
-linux-firmware-amdgpu
-linux-firmware-broadcom
-linux-firmware-intel
-linux-firmware-realtek
 memtest86+
 memtest86+-efi
 mkinitcpio
 mkinitcpio-archiso
 pv
 syslinux
+
+## Kernel
+linux-cachyos
+linux-cachyos-lts
+
+## Firmware
+linux-firmware-amdgpu
+linux-firmware-broadcom
+linux-firmware-intel
+linux-firmware-realtek
 
 ## Microcode
 amd-ucode
