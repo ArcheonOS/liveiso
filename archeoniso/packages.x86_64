@@ -1,8 +1,6 @@
 ## Core
 arch-install-scripts
-archlinux-keyring
 base
-cachyos-keyring
 memtest86+
 memtest86+-efi
 mkinitcpio
@@ -13,6 +11,10 @@ syslinux
 ## Kernel
 linux-cachyos
 linux-cachyos-lts
+
+## Keyring
+archlinux-keyring
+cachyos-keyring
 
 ## Firmware
 linux-firmware-amdgpu
@@ -43,15 +45,18 @@ networkmanager
 openssh
 
 ## Desktop Environment
+ark
 bluedevil
 dolphin
 kate
 kcalc
 kde-gtk-config
+kdialog
 konsole
 plasma-desktop
 plasma-nm
 plasma-pa
+plasma-wayland-protocols
 polkit
 polkit-kde-agent
 kscreen
@@ -100,6 +105,7 @@ bluez-utils
 cachyos-cli-installer-new
 cachyos-mirrorlist
 cachyos-rate-mirrors
+egl-wayland
 fastfetch
 ungoogled-chromium-bin
 fish
@@ -109,6 +115,8 @@ man-pages
 pciutils
 starship
 sudo
+unzip
+unrar
 usbutils
 vim
 xdg-user-dirs
