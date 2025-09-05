@@ -304,8 +304,8 @@
         "content_settings": [],
         "creation_flags": 1,
         "disable_reasons": [],
-        "first_install_time": "13399763589981933",
-        "from_webstore": false,
+        "first_install_time": "13401214065569217",
+        "from_webstore": true,
         "granted_permissions": {
           "api": [
             "storage",
@@ -317,7 +317,7 @@
         },
         "incognito_content_settings": [],
         "incognito_preferences": {},
-        "last_update_time": "13399996837891413",
+        "last_update_time": "13401279213788157",
         "location": 1,
         "manifest": {
           "action": {
@@ -334,8 +334,7 @@
           "default_locale": "en",
           "description": "Improve your web browsing experience with Bonjourr, a beautiful, customizable and lightweight homepage.",
           "icons": {
-            "128": "src/assets/favicon-128x128.png",
-            "512": "src/assets/favicon-512x512.png"
+            "128": "src/assets/favicons/favicon-128x128.png"
           },
           "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjvBN8H9K39kKG3b5jn5rHpaWSDEfa69yzlNdf7FMylwWCMBd3r3rGdWeUMNK9rZoCYPLxTr077aRys5Ovch+42xNOaWUlNa0ZW2TFgtaSWsFdqWB0Ji3jj+vXiEa3FMzSyWhezsPskF/uqVrM2wR9u9iNZW9hrcBJ8B+8bkkid90ZvOG79y0jr8PkLKRgpin2oBG4EqNHuFanLIadlROPg/wPTxihEBPSBcd10EdJxkGunMnrvovWHI8iVp1yhHDjpbeuRsueAaAQjprG2rkvmpdA8rry/7e9TnzC62Cb+g/VUdijRYduyd5bsywDoM2JFlngjJLTUKRvHYso2ZXZQIDAQAB",
           "manifest_version": 3,
@@ -343,27 +342,26 @@
           "offline_enabled": true,
           "optional_permissions": [
             "bookmarks",
-            "search",
-            "topSites"
+            "topSites",
+            "search"
           ],
           "permissions": [
             "storage"
           ],
           "short_name": "Bonjourr",
           "update_url": "https://clients2.google.com/service/update2/crx",
-          "version": "21.1.0"
+          "version": "21.2.0"
         },
-        "path": "dlnejlppicbjfcfcedcflplfjajinajd/21.1.0_0",
+        "path": "dlnejlppicbjfcfcedcflplfjajinajd/21.2.0_0",
         "preferences": {},
         "regular_only_preferences": {},
         "service_worker_registration_info": {
-          "version": "21.1.0"
+          "version": "21.2.0"
         },
         "serviceworkerevents": [
           "action.onClicked",
           "runtime.onInstalled"
         ],
-        "uninstall_url": "https://bonjourr.fr/goodbye",
         "was_installed_by_default": true,
         "was_installed_by_oem": true,
         "withholding_permissions": false
@@ -391,9 +389,9 @@
         },
         "commands": {},
         "content_settings": [],
-        "creation_flags": 1,
+        "creation_flags": 5,
         "disable_reasons": [],
-        "first_install_time": "13399991473290812",
+        "first_install_time": "13401213510914502",
         "from_webstore": true,
         "granted_permissions": {
           "api": [
@@ -416,7 +414,7 @@
         },
         "incognito_content_settings": [],
         "incognito_preferences": {},
-        "last_update_time": "13399991473290812",
+        "last_update_time": "13401365709462648",
         "location": 1,
         "manifest": {
           "action": {
@@ -486,7 +484,7 @@
             "managed_schema": "managed_storage.json"
           },
           "update_url": "https://raw.githubusercontent.com/NeverDecaf/chromium-web-store/master/updates.xml",
-          "version": "1.5.4.3",
+          "version": "1.5.5",
           "web_accessible_resources": [
             {
               "matches": [
@@ -498,11 +496,12 @@
             }
           ]
         },
-        "path": "ocaahdebbfolfmndjeplogmgcagdmblk/1.5.4.3_0",
+        "newAllowFileAccess": true,
+        "path": "ocaahdebbfolfmndjeplogmgcagdmblk/1.5.5_0",
         "preferences": {},
         "regular_only_preferences": {},
         "service_worker_registration_info": {
-          "version": "1.5.4.3"
+          "version": "1.5.5"
         },
         "serviceworkerevents": [
           "alarms.onAlarm",
