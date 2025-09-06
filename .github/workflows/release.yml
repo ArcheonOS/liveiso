@@ -1,4 +1,4 @@
-name: Archeon Release
+name: Archeon Monthly
 
 on:
   schedule:
@@ -113,7 +113,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: archeon-build
+          name: Archeon-Build
           path: dist/desktop/*
 
       - name: Set release information
@@ -166,16 +166,18 @@ jobs:
       - name: Create release notes
         run: |
           cat > release_notes.md << EOF
+          #### Download from [GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+          
           ### Build Information
           - **Build Date**: $(date +'%Y-%m-%d %H:%M:%S UTC')
           - **Build Type**: ${{ steps.release_info.outputs.build_type }}
-          - **ISO Size**: ${{ steps.build_iso.outputs.iso_size }}
           - **Commit**: ${{ github.sha }}
-
+      
           ---
-
+      
           *This is an automated build*
           EOF
+
 
       - name: Upload release notes artifact
         uses: actions/upload-artifact@v4
@@ -192,12 +194,6 @@ jobs:
       contents: write
 
     steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v5
-        with:
-          name: archeon-build
-          path: dist/desktop
-
       - name: Download changelog artifact
         uses: actions/download-artifact@v5
         with:
@@ -212,6 +208,4 @@ jobs:
           body_path: changelog/release_notes.md
           make_latest: ${{ needs.build.outputs.build_type == 'release' }}
           prerelease: ${{ needs.build.outputs.build_type == 'beta' }}
-          files: dist/desktop/*
-          fail_on_unmatched_files: true
           generate_release_notes: true
