@@ -77,6 +77,7 @@ jobs:
             -w /work \
             archlinux:latest bash -c "
               set -euo pipefail
+              pacman-key --init
               echo '=== Updating system packages ==='
               pacman -Syu --needed --noconfirm
 
