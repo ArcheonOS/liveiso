@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-cachyos-rate-mirrors
-
-pacman-key --init
-
-pacman -Sy --noconfirm archlinux-keyring cachyos-keyring
-
-pacman-key --populate

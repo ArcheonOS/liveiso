@@ -1,1 +1,14 @@
 root:x:0:root
+sys:x:3:bin,archeonlive
+network:x:90:archeonlive
+power:x:98:archeonlive
+adm:x:999:archeonlive
+wheel:x:998:archeonlive
+uucp:x:987:archeonlive
+optical:x:990:archeonlive
+rfkill:x:983:archeonlive
+video:x:986:archeonlive
+storage:x:988:archeonlive
+audio:x:995:archeonlive
+users:x:985:archeonlive
+archeonlive:x:1000:
